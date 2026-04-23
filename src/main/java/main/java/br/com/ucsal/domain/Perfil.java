@@ -32,6 +32,6 @@ public class Perfil {
     //modificação : @JsonIgnore impede que a lista de usuários seja retornada nas respostas da API, evitando recursão infinita
     @JsonIgnore
     //fim modificação
-    @ManyToMany(mappedBy = "perfis")
+    @ManyToMany(mappedBy = "perfis") 
     private List<Usuario> usuarios;
 }

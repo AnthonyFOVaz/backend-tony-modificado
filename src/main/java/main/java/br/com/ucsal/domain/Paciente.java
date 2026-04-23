@@ -36,7 +36,7 @@ public class Paciente {
     private String email;
 
     @NotNull
-    @Column(name = "data_cafastro", nullable = false)
+    @Column(name = "data_cadastro", nullable = false)
     private LocalDate dataCadastro;
 
     @NotNull

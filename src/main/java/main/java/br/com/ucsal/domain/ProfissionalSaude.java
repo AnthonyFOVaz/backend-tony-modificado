@@ -40,7 +40,7 @@ public class ProfissionalSaude {
     @Column(nullable = false, length = 100)
     private String diasTurnosAtendimento;
 
-    @NotNull
+    @NotNull 
     @Column(nullable = false)
     private LocalDate dataDeCadastro;
 
