@@ -1,5 +1,8 @@
 package main.java.br.com.ucsal.domain;
 
+//modificação : import do @JsonIgnore para ocultar a senha nas respostas da API
+import com.fasterxml.jackson.annotation.JsonIgnore;
+//fim modificação
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -26,6 +29,9 @@ public class Usuario {
     @Column(nullable = false, unique = true, length = 100)
     private String email;
 
+    //modificação : @JsonIgnore impede que a senha seja retornada nas respostas da API
+    @JsonIgnore
+    //fim modificação
     @NotBlank
     @Column(nullable = false)
     private String senha;

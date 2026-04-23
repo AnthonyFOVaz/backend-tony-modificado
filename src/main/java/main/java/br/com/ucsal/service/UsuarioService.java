@@ -5,7 +5,7 @@ import main.java.br.com.ucsal.domain.Perfil;
 import main.java.br.com.ucsal.domain.Usuario;
 import main.java.br.com.ucsal.repository.PerfilRepository;
 import main.java.br.com.ucsal.repository.UsuarioRepository;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder; 
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,7 +24,7 @@ public class UsuarioService {
         if (usuario.getPerfis() != null && usuario.getPerfis().isEmpty()) {
             List<Long> idsPerfis = usuario.getPerfis()
                     .stream()
-                    .map(Perfil::getId)
+                    .map(Perfil::getId) 
                     .toList();
             List<Perfil> perfis = perfilRepository.findAllById(idsPerfis);
 

@@ -1,12 +1,13 @@
 package main.java.br.com.ucsal.service;
 
+import java.time.LocalDate;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
 import lombok.RequiredArgsConstructor;
 import main.java.br.com.ucsal.domain.Medicamento;
 import main.java.br.com.ucsal.repository.MedicamentoRepository;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -46,7 +47,7 @@ public class MedicamentoService {
         return medicamentoRepository.save(medicamento);
     }
 
-    public Medicamento baixarEstouque(Long id, Integer quantidade) {
+    public Medicamento baixarEstoque(Long id, Integer quantidade) {
         Medicamento medicamento = buscarPorId(id);
         if (quantidade < 0)
             throw new RuntimeException("Quantidade para baixa deve ser maior que 0.");

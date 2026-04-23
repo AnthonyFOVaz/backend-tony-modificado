@@ -1,5 +1,10 @@
 package main.java.br.com.ucsal.service;
 
+import java.time.LocalDate;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
 import lombok.RequiredArgsConstructor;
 import main.java.br.com.ucsal.domain.Medicamento;
 import main.java.br.com.ucsal.domain.ProfissionalSaude;
@@ -7,10 +12,6 @@ import main.java.br.com.ucsal.domain.Requisicao;
 import main.java.br.com.ucsal.repository.MedicamentoRepository;
 import main.java.br.com.ucsal.repository.ProfissionalSaudeRepository;
 import main.java.br.com.ucsal.repository.RequisicaoRepository;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -42,10 +43,14 @@ public class RequisicaoService {
     }
 
     public List<Requisicao> buscarPorProfissional(Long profissionalId) {
-        return requisicaoRepository.findByProfissionalSaude(profissionalId);
+        //modificação : corrigido para findByProfissionalSaudeId —
+        return requisicaoRepository.findByProfissionalSaudeId(profissionalId);
+        //fim modificação
     }
 
     public List<Requisicao> buscarPorMedicamento(Long medicamentoId) {
-        return requisicaoRepository.findByMedicamento(medicamentoId);
+        //modificação : corrigido para findByMedicamentoId
+        return requisicaoRepository.findByMedicamentoId(medicamentoId);
+        //fim modificação
     }
 }
