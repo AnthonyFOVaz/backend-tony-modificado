@@ -67,6 +67,11 @@ public class SecurityConfig {
                 // GETs de consulta (relatórios, listagens): qualquer perfil autenticado — doc. admin item 5 e profissional item 4
                 .anyRequest().authenticated()
             )
+            // sem token: 401 — sem permissão: 403
+            .exceptionHandling(ex -> ex
+                .authenticationEntryPoint((req, res, e) -> res.sendError(401, "Não autenticado"))
+                .accessDeniedHandler((req, res, e) -> res.sendError(403, "Acesso negado"))
+            )
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

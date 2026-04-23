@@ -1,18 +1,21 @@
 package br.com.ucsal.security;
 
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
+import java.io.IOException;
+
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import java.io.IOException;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 
 // intercepta toda requisição e verifica se o token JWT é válido
 @Component
@@ -38,8 +41,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // extrai o token removendo o prefixo "Bearer "
         String token = authHeader.substring(7);
 
-        // valida o token e autentica o usuário no contexto do Spring Security
-        if (jwtUtil.validarToken(token) && SecurityContextHolder.getContext().getAuthentication() == null) {
+        Authentication existing = SecurityContextHolder.getContext().getAuthentication();
+        boolean naoAutenticado = existing == null || existing instanceof AnonymousAuthenticationToken;
+
+        if (jwtUtil.validarToken(token) && naoAutenticado) {
             String email = jwtUtil.extrairEmail(token);
             UserDetails userDetails = userDetailsService.loadUserByUsername(email);
 
