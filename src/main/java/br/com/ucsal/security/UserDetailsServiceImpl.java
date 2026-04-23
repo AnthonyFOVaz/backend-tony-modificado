@@ -1,8 +1,8 @@
-package main.java.br.com.ucsal.security;
+package br.com.ucsal.security;
 
+import br.com.ucsal.domain.Usuario;
+import br.com.ucsal.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
-import main.java.br.com.ucsal.domain.Usuario;
-import main.java.br.com.ucsal.repository.UsuarioRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;

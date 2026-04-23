@@ -1,18 +1,17 @@
 package br.com.ucsal.repository;
 
-import java.util.List;
-
+import br.com.ucsal.domain.Requisicao;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import br.com.ucsal.domain.Requisicao;
+import java.util.Optional;
 
 public interface RequisicaoRepository extends JpaRepository<Requisicao, Long> {
 
     //modificação : Spring Data JPA precisa do Id no final
-    List<Requisicao> findByProfissionalSaudeId(Long profissionalId);
+    Optional<Requisicao> findByProfissionalSaudeId(Long profissionalId);
     //fim modificação
 
     //modificação : Spring Data JPA precisa do Id no final
-    List<Requisicao> findByMedicamentoId(Long medicamentoId);
+    Optional<Requisicao> findByMedicamentoId(Long medicamentoId);
     //fim modificação
 }

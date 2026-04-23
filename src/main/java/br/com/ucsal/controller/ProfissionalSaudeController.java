@@ -31,14 +31,15 @@ public class ProfissionalSaudeController {
         return ResponseEntity.ok(profissionalSaudeService.buscarPorId(id));
     }
 
-    @PutMapping("{id}/inativar")
+
+    @PutMapping("/{id}/inativar")
     public ResponseEntity<ProfissionalSaude> inativar(@PathVariable Long id) {
         return ResponseEntity.ok(profissionalSaudeService.inativarProfissional(id));
     }
 
-    @PutMapping("{id}/atualizar")
-    public ResponseEntity<ProfissionalSaude> atualizar(@PathVariable Long id
-    , @RequestBody ProfissionalSaude profissional) {
+    @PutMapping("/{id}/atualizar")
+    public ResponseEntity<ProfissionalSaude> atualizar(@PathVariable Long id,
+                                                       @RequestBody ProfissionalSaude profissional) {
         return ResponseEntity.ok(profissionalSaudeService.atualizarProfissional(id, profissional));
     }
 }

@@ -1,12 +1,12 @@
 package br.com.ucsal.service;
 
-import lombok.RequiredArgsConstructor;
 import br.com.ucsal.domain.Atendimento;
 import br.com.ucsal.domain.ProfissionalSaude;
 import br.com.ucsal.domain.Prontuario;
 import br.com.ucsal.repository.AtendimentoRepository;
 import br.com.ucsal.repository.ProfissionalSaudeRepository;
 import br.com.ucsal.repository.ProntuarioRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -49,10 +49,10 @@ public class AtendimentoService {
     }
 
     public List<Atendimento> listarPorProntuario(Long prontuarioId) {
-        return atendimentoRepository.findByProntuarioId(prontuarioId);
+        return atendimentoRepository.findAllByProntuarioId(prontuarioId);
     }
 
     public List<Atendimento> listarPorProfissional(Long profissionalId) {
-        return atendimentoRepository.findByProfissionalId(profissionalId);
+        return atendimentoRepository.findAllByProfissionalId(profissionalId);
     }
 }

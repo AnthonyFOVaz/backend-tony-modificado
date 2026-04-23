@@ -15,7 +15,6 @@ import java.util.List;
 public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
     private final PerfilRepository perfilRepository;
-    // injetado pelo SecurityConfig — usado para encodar a senha antes de salvar
     private final PasswordEncoder passwordEncoder;
 
     public Usuario cadastrarUsuario(Usuario usuario) {
@@ -23,12 +22,13 @@ public class UsuarioService {
             throw new RuntimeException("Email já cadastrado");
         if (usuario.getAtivo() == null)
             usuario.setAtivo(true);
-        // senha salva como hash BCrypt — nunca em texto puro
+
         usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
-        if (usuario.getPerfis() != null && usuario.getPerfis().isEmpty()) {
+
+        if (usuario.getPerfis() != null && !usuario.getPerfis().isEmpty()) {
             List<Long> idsPerfis = usuario.getPerfis()
                     .stream()
-                    .map(Perfil::getId) 
+                    .map(Perfil::getId)
                     .toList();
             List<Perfil> perfis = perfilRepository.findAllById(idsPerfis);
 
@@ -68,6 +68,6 @@ public class UsuarioService {
             throw new RuntimeException("Nenhum perfil válido foi encontrado.");
 
         usuario.setPerfis(perfis);
-        return usuarioRepository.save(usuario); 
+        return usuarioRepository.save(usuario);
     }
 }

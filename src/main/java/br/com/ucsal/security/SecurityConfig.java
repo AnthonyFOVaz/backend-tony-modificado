@@ -1,4 +1,4 @@
-package main.java.br.com.ucsal.security;
+package br.com.ucsal.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

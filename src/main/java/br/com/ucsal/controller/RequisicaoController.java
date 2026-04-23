@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/requisicoes")
@@ -33,12 +34,12 @@ public class RequisicaoController {
     }
 
     @GetMapping("/profissional/{profissionalId}")
-    public ResponseEntity<List<Requisicao>> listarPorProfissional(@PathVariable Long profissionalId) {
+    public ResponseEntity<Optional<Requisicao>> listarPorProfissional(@PathVariable Long profissionalId) {
         return ResponseEntity.ok(requisicaoService.buscarPorProfissional(profissionalId));
     }
 
     @GetMapping("/medicamento/{medicamentoId}")
-    public ResponseEntity<List<Requisicao>> listarPorMedicamento(@PathVariable Long medicamentoId) {
+    public ResponseEntity<Optional<Requisicao>> listarPorMedicamento(@PathVariable Long medicamentoId) {
         return ResponseEntity.ok(requisicaoService.buscarPorMedicamento(medicamentoId));
     }
 }

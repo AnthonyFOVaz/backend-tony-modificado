@@ -17,7 +17,8 @@ public class InstituicaoService {
     }
 
     public Instituicao buscarPorId(Long id) {
-        return instituicaoRepository.findById(id).get();
+        return instituicaoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Instituição não encontrada."));
     }
 
     public List<Instituicao> buscarTodas() {

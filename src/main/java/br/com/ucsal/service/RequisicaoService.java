@@ -2,6 +2,7 @@ package br.com.ucsal.service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -42,13 +43,13 @@ public class RequisicaoService {
         return requisicaoRepository.findAll();
     }
 
-    public List<Requisicao> buscarPorProfissional(Long profissionalId) {
+    public Optional<Requisicao> buscarPorProfissional(Long profissionalId) {
         //modificação : corrigido para findByProfissionalSaudeId —
         return requisicaoRepository.findByProfissionalSaudeId(profissionalId);
         //fim modificação
     }
 
-    public List<Requisicao> buscarPorMedicamento(Long medicamentoId) {
+    public Optional<Requisicao> buscarPorMedicamento(Long medicamentoId) {
         //modificação : corrigido para findByMedicamentoId
         return requisicaoRepository.findByMedicamentoId(medicamentoId);
         //fim modificação

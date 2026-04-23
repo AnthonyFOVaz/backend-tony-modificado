@@ -8,8 +8,5 @@ import br.com.ucsal.domain.Prontuario;
 
 
 public interface ProntuarioRepository extends JpaRepository<Prontuario, Long> {
-
-    //modificação : busca prontuário pelo ID do paciente, necessário para retornar histórico (item 4.3)
     Optional<Prontuario> findByPacienteId(Long pacienteId);
-    //fim modificação
 }

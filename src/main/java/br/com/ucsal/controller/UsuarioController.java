@@ -31,18 +31,19 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioService.buscarPorId(id));
     }
 
-    @GetMapping("/{email}")
+    @GetMapping("/email/{email}")
     public ResponseEntity<Usuario> buscarPorEmail(@PathVariable String email) {
         return ResponseEntity.ok(usuarioService.buscarPorEmail(email));
     }
 
     @PutMapping("/{id}/inativar")
-    public ResponseEntity<Usuario> inativar(@RequestBody @Valid Long id) {
+    public ResponseEntity<Usuario> inativar(@PathVariable Long id) {
         return ResponseEntity.ok(usuarioService.inativarUsuario(id));
     }
 
     @PutMapping("/{id}/atualizar")
-    public ResponseEntity<Usuario> atualizar(@RequestBody @Valid Long id, List<Long> perfisIds) {
+    public ResponseEntity<Usuario> atualizar(@PathVariable Long id,
+                                             @RequestBody List<Long> perfisIds) {
         return ResponseEntity.ok(usuarioService.atualizarUsuario(id, perfisIds));
     }
 }

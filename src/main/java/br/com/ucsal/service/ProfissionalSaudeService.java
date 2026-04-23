@@ -1,10 +1,10 @@
 package br.com.ucsal.service;
 
-import lombok.RequiredArgsConstructor;
 import br.com.ucsal.domain.ProfissionalSaude;
 import br.com.ucsal.domain.Usuario;
 import br.com.ucsal.repository.ProfissionalSaudeRepository;
 import br.com.ucsal.repository.UsuarioRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -27,8 +27,9 @@ public class ProfissionalSaudeService {
 
     public ProfissionalSaude buscarPorId(Long id) {
         return profissionalSaudeRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Profissional não econtrado."));
+                .orElseThrow(() -> new RuntimeException("Profissional não encontrado."));
     }
+
 
     public List<ProfissionalSaude> buscarTodos() {
         return profissionalSaudeRepository.findAll();
@@ -36,7 +37,7 @@ public class ProfissionalSaudeService {
 
     public ProfissionalSaude inativarProfissional(Long id) {
         ProfissionalSaude profissional = buscarPorId(id);
-        profissional.setAtivo(true);
+        profissional.setAtivo(false);
         return profissionalSaudeRepository.save(profissional);
     }
 
@@ -47,7 +48,6 @@ public class ProfissionalSaudeService {
         profissional.setNumeroRegistro(dados.getNumeroRegistro());
         profissional.setConselhoRegional(dados.getConselhoRegional());
         profissional.setDiasTurnosAtendimento(dados.getDiasTurnosAtendimento());
-
         return profissionalSaudeRepository.save(profissional);
     }
 }
