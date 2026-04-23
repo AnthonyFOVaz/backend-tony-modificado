@@ -1,10 +1,10 @@
-package main.java.br.com.ucsal.service;
+package br.com.ucsal.service;
 
 import lombok.RequiredArgsConstructor;
-import main.java.br.com.ucsal.domain.Perfil;
-import main.java.br.com.ucsal.domain.Usuario;
-import main.java.br.com.ucsal.repository.PerfilRepository;
-import main.java.br.com.ucsal.repository.UsuarioRepository;
+import br.com.ucsal.domain.Perfil;
+import br.com.ucsal.domain.Usuario;
+import br.com.ucsal.repository.PerfilRepository;
+import br.com.ucsal.repository.UsuarioRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
