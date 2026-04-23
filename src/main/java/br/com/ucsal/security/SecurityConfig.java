@@ -52,7 +52,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.PUT, "/api/profissionais/*/inativar").hasAuthority("ADMIN")
 
                 // baixar estoque e criar requisição: só PROFISSIONAL_SAUDE — doc. profissional item 3
-                .requestMatchers(HttpMethod.PATCH, "/api/medicamentos/*/baixar-estoque").hasAuthority("PROFISSIONAL_SAUDE")
+                .requestMatchers(HttpMethod.PATCH, "/api/medicamentos/*/baixar-estoque").hasAuthority("PROFISSIONAL_SAUDE") 
                 .requestMatchers(HttpMethod.POST, "/api/requisicoes").hasAuthority("PROFISSIONAL_SAUDE")
 
                 // cadastrar/inativar pacientes e registrar atendimentos: só PROFISSIONAL_SAUDE — doc. profissional item 2
