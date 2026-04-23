@@ -1,8 +1,10 @@
 package br.com.ucsal.security;
 
-import lombok.RequiredArgsConstructor;
+import java.util.List;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,7 +18,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.List;
+import lombok.RequiredArgsConstructor;
 
 // configuração central do Spring Security
 @Configuration
@@ -34,8 +36,35 @@ public class SecurityConfig {
             // sem sessão — cada requisição é autenticada pelo token JWT
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                // rota de login é pública, todas as outras exigem autenticação
+                // login público — doc. restrição 1.3
                 .requestMatchers("/auth/**").permitAll()
+
+                // gestão de usuários: só ADMIN
+                .requestMatchers("/api/usuarios/**").hasAuthority("ADMIN")
+
+                // cadastrar/inativar medicamento e repor estoque: só ADMIN — doc. admin item 4
+                .requestMatchers(HttpMethod.POST, "/api/medicamentos").hasAuthority("ADMIN")
+                .requestMatchers(HttpMethod.PATCH, "/api/medicamentos/*/inativar").hasAuthority("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/api/medicamentos/*/estoque").hasAuthority("ADMIN")
+
+                // cadastrar/inativar profissional: só ADMIN — doc. admin item 3
+                .requestMatchers(HttpMethod.POST, "/api/profissionais").hasAuthority("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/api/profissionais/*/inativar").hasAuthority("ADMIN")
+
+                // baixar estoque e criar requisição: só PROFISSIONAL_SAUDE — doc. profissional item 3
+                .requestMatchers(HttpMethod.PATCH, "/api/medicamentos/*/baixar-estoque").hasAuthority("PROFISSIONAL_SAUDE")
+                .requestMatchers(HttpMethod.POST, "/api/requisicoes").hasAuthority("PROFISSIONAL_SAUDE")
+
+                // cadastrar/inativar pacientes e registrar atendimentos: só PROFISSIONAL_SAUDE — doc. profissional item 2
+                .requestMatchers(HttpMethod.POST, "/api/pacientes").hasAuthority("PROFISSIONAL_SAUDE")
+                .requestMatchers(HttpMethod.PUT, "/api/pacientes/*/inativar").hasAuthority("PROFISSIONAL_SAUDE")
+                .requestMatchers(HttpMethod.POST, "/api/atendimentos").hasAuthority("PROFISSIONAL_SAUDE")
+                .requestMatchers(HttpMethod.PUT, "/api/atendimentos/*/encerrar").hasAuthority("PROFISSIONAL_SAUDE")
+
+                // atualizar próprio cadastro: só PROFISSIONAL_SAUDE — doc. profissional item 1
+                .requestMatchers(HttpMethod.PUT, "/api/profissionais/*/atualizar").hasAuthority("PROFISSIONAL_SAUDE")
+
+                // GETs de consulta (relatórios, listagens): qualquer perfil autenticado — doc. admin item 5 e profissional item 4
                 .anyRequest().authenticated()
             )
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
