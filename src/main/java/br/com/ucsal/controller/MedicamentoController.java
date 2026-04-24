@@ -46,7 +46,7 @@ public class MedicamentoController {
         return ResponseEntity.ok(medicamentoService.inativarMedicamento(id));
     }
 
-    @PutMapping("/{id}/estoque")
+    @PutMapping("/{id}")
     public ResponseEntity<Medicamento> atualizarEstoque(@PathVariable Long id,
                                                         @RequestParam Integer quantidade) {
         return ResponseEntity.ok(medicamentoService.atualizarEstoque(id, quantidade));

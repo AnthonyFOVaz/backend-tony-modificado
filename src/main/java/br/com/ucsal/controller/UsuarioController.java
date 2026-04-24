@@ -48,7 +48,7 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioService.inativarUsuario(id));
     }
 
-    @PutMapping("/{id}/atualizar")
+    @PutMapping("/{id}")
     public ResponseEntity<Usuario> atualizar(@PathVariable Long id,
                                              @RequestBody List<Long> perfisIds) {
         return ResponseEntity.ok(usuarioService.atualizarUsuario(id, perfisIds));
