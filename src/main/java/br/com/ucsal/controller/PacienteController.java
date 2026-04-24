@@ -34,7 +34,7 @@ public class PacienteController {
         return ResponseEntity.ok(pacienteService.buscarPorId(id));
     }
 
-    @PutMapping("{id}/inativar")
+    @PutMapping("/{id}/inativar")
     public ResponseEntity<Paciente> inativar(@PathVariable Long id) {
         return ResponseEntity.ok(pacienteService.inativarPaciente(id));
     }

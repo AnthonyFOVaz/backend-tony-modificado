@@ -37,7 +37,7 @@ public class ProfissionalSaudeController {
         return ResponseEntity.ok(profissionalSaudeService.inativarProfissional(id));
     }
 
-    @PutMapping("/{id}/atualizar")
+    @PutMapping("/{id}")
     public ResponseEntity<ProfissionalSaude> atualizar(@PathVariable Long id,
                                                        @RequestBody ProfissionalSaude profissional) {
         return ResponseEntity.ok(profissionalSaudeService.atualizarProfissional(id, profissional));
