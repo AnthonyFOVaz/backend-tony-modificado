@@ -49,7 +49,7 @@ public class ProfissionalSaude {
             name = "profissional_data_hora_disponibilidade",
             joinColumns = @JoinColumn(name = "profissional_id")
     )
-    private List<DataHoraDisponibilidade> dataHoraDisponibilidade;
+    private List<DataHoraDisponibilidade> dataHoraDisponibilidade; 
 
     @NotNull 
     @Column(nullable = false)
