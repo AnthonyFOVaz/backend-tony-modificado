@@ -36,7 +36,7 @@ public class AuthController {
                     new UsernamePasswordAuthenticationToken(request.getEmail(), request.getSenha())
             );
             // auth.getName() retorna o email, que foi definido como subject do token em JwtUtil
-            String token = jwtUtil.gerarToken(auth.getName());
+            String token = jwtUtil.gerarToken(auth.getName(), auth.getAuthorities());
             return ResponseEntity.ok(new LoginResponse(token));
         } catch (BadCredentialsException e) {
             // credenciais inválidas: email ou senha errados, devolve um 403.
