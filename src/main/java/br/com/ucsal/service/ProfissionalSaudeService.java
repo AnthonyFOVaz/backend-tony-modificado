@@ -20,6 +20,7 @@ public class ProfissionalSaudeService {
         Usuario usuario = usuarioRepository.findById(profissional.getUsuario().getId())
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado."));
         profissional.setUsuario(usuario);
+        profissional.atualizarDiasTurnosAtendimentoPelaDisponibilidade();
         if (profissional.getDataDeCadastro() == null)
             profissional.setDataDeCadastro(LocalDate.now());
         return profissionalSaudeRepository.save(profissional);
@@ -48,6 +49,8 @@ public class ProfissionalSaudeService {
         profissional.setNumeroRegistro(dados.getNumeroRegistro());
         profissional.setConselhoRegional(dados.getConselhoRegional());
         profissional.setDiasTurnosAtendimento(dados.getDiasTurnosAtendimento());
+        profissional.setDataHoraDisponibilidade(dados.getDataHoraDisponibilidade());
+        profissional.atualizarDiasTurnosAtendimentoPelaDisponibilidade();
         return profissionalSaudeRepository.save(profissional);
     }
 }

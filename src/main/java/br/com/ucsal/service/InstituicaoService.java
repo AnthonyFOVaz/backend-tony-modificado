@@ -1,11 +1,12 @@
 package br.com.ucsal.service;
 
-import lombok.RequiredArgsConstructor;
-import br.com.ucsal.domain.Instituicao;
-import br.com.ucsal.repository.InstituicaoRepository;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import br.com.ucsal.domain.Instituicao;
+import br.com.ucsal.repository.InstituicaoRepository;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
