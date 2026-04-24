@@ -42,4 +42,12 @@ public class Paciente {
     @NotNull
     @Column(nullable = false)
     private Boolean ativo = true;
+
+    @ManyToOne
+    @JoinColumn(name = "escola_id")
+    private Escola escola;
+
+    @ManyToOne
+    @JoinColumn(name = "unidade_id")
+    private Unidade unidade;
 }
