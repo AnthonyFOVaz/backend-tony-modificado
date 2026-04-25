@@ -12,9 +12,13 @@ import java.util.stream.Collectors;
 
 @Entity
 @Table(name="profissionais")
-@Getter @Setter
-@NoArgsConstructor @AllArgsConstructor @Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ProfissionalSaude {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -24,7 +28,7 @@ public class ProfissionalSaude {
     private String identificacaoProfissional;
 
     @NotBlank
-    @Column(nullable = false,length = 100)
+    @Column(nullable = false, length = 100)
     private String nome;
 
     @NotBlank
@@ -49,9 +53,9 @@ public class ProfissionalSaude {
             name = "profissional_data_hora_disponibilidade",
             joinColumns = @JoinColumn(name = "profissional_id")
     )
-    private List<DataHoraDisponibilidade> dataHoraDisponibilidade; 
+    private List<DataHoraDisponibilidade> dataHoraDisponibilidade;
 
-    @NotNull 
+    @NotNull
     @Column(nullable = false)
     private LocalDate dataDeCadastro;
 
@@ -69,7 +73,7 @@ public class ProfissionalSaude {
         }
 
         diasTurnosAtendimento = dataHoraDisponibilidade.stream()
-                .map(disponibilidade -> disponibilidade.getData()
+                .map(disponibilidade -> disponibilidade.getDiaSemana()
                         + " "
                         + disponibilidade.getHorarioInicio()
                         + "-"
