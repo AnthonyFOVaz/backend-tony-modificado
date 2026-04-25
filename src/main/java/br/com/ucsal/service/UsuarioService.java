@@ -1,14 +1,15 @@
 package br.com.ucsal.service;
 
-import lombok.RequiredArgsConstructor;
+import java.util.List;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
 import br.com.ucsal.domain.Perfil;
 import br.com.ucsal.domain.Usuario;
 import br.com.ucsal.repository.PerfilRepository;
 import br.com.ucsal.repository.UsuarioRepository;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
@@ -17,10 +18,10 @@ public class UsuarioService {
     private final PerfilRepository perfilRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public Usuario cadastrarUsuario(Usuario usuario) {
+    public Usuario cadastrarUsuario(Usuario usuario) { 
         if (usuarioRepository.findByEmail(usuario.getEmail()).isPresent())
             throw new RuntimeException("Email já cadastrado");
-        if (usuario.getAtivo() == null)
+        if (usuario.getAtivo() == null) 
             usuario.setAtivo(true);
 
         usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
