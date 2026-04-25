@@ -41,6 +41,7 @@ public class SecurityConfig {
 
                 // gestão de usuários: só ADMIN
                 .requestMatchers("/api/usuarios/**").hasAuthority("ADMIN")
+                .requestMatchers("/api/perfis/**").hasAuthority("ADMIN")
 
                 // cadastrar/inativar medicamento e repor estoque: só ADMIN — doc. admin item 4
                 .requestMatchers(HttpMethod.POST, "/api/medicamentos").hasAuthority("ADMIN")
