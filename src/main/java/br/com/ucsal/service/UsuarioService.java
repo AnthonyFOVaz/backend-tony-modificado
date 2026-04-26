@@ -2,8 +2,12 @@ package br.com.ucsal.service;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import br.com.ucsal.domain.Perfil;
 import br.com.ucsal.domain.Usuario;
@@ -57,6 +61,13 @@ public class UsuarioService {
 
     public Usuario inativarUsuario(Long id) {
         Usuario usuario = buscarPorId(id);
+
+        if (ehUsuarioAutenticado(usuario)) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "O usuário logado não pode inativar a própria conta.");
+        }
+
         usuario.setAtivo(false);
         return usuarioRepository.save(usuario);
     }
@@ -76,5 +87,15 @@ public class UsuarioService {
 
         usuario.setPerfis(perfis);
         return usuarioRepository.save(usuario);
+    }
+
+    private boolean ehUsuarioAutenticado(Usuario usuario) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || authentication.getName() == null) {
+            return false;
+        }
+
+        return authentication.getName().equalsIgnoreCase(usuario.getEmail());
     }
 }
