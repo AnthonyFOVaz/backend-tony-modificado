@@ -48,6 +48,25 @@ public class AtendimentoService {
         return atendimentoRepository.save(atendimento);
     }
 
+    public Atendimento atualizarAtendimento(Long id, Atendimento dados) {
+        Atendimento existente = buscarPorId(id);
+
+        if (dados.getProfissional() != null && dados.getProfissional().getId() != null) {
+            ProfissionalSaude profissional = profissionalSaudeRepository.findById(dados.getProfissional().getId())
+                    .orElseThrow(() -> new RuntimeException("Profissional não encontrado."));
+            existente.setProfissional(profissional);
+        }
+        if (dados.getTipoAtendimento() != null) existente.setTipoAtendimento(dados.getTipoAtendimento());
+        if (dados.getDataHoraInicio() != null) existente.setDataHoraInicio(dados.getDataHoraInicio());
+        existente.setSintomas(dados.getSintomas());
+        existente.setDiagnostico(dados.getDiagnostico());
+        existente.setMedicacaoDosagem(dados.getMedicacaoDosagem());
+        existente.setTratamento(dados.getTratamento());
+        existente.setDataHoraEncerramento(dados.getDataHoraEncerramento());
+
+        return atendimentoRepository.save(existente);
+    }
+
     public List<Atendimento> listarPorProntuario(Long prontuarioId) {
         return atendimentoRepository.findAllByProntuarioId(prontuarioId);
     }

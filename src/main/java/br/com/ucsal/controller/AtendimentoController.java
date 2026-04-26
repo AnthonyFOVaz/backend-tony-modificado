@@ -34,6 +34,11 @@ public class AtendimentoController {
         return ResponseEntity.ok(AtendimentoResponse.from(atendimentoService.encerrarAtendimento(id)));
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<AtendimentoResponse> atualizar(@PathVariable Long id, @RequestBody Atendimento dados) {
+        return ResponseEntity.ok(AtendimentoResponse.from(atendimentoService.atualizarAtendimento(id, dados)));
+    }
+
     @GetMapping("/profissional/{profissionalId}")
     public ResponseEntity<List<AtendimentoResponse>> listarPorProfissional(@PathVariable Long profissionalId) {
         return ResponseEntity.ok(atendimentoService.listarPorProfissional(profissionalId).stream()

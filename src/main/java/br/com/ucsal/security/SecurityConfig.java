@@ -75,6 +75,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.PUT, "/api/pacientes/*/reativar").hasAuthority("PROFISSIONAL_SAUDE")
                 .requestMatchers(HttpMethod.POST, "/api/atendimentos").hasAuthority("PROFISSIONAL_SAUDE")
                 .requestMatchers(HttpMethod.PUT, "/api/atendimentos/*/encerrar").hasAuthority("PROFISSIONAL_SAUDE")
+                .requestMatchers(HttpMethod.PUT, "/api/atendimentos/*").hasAuthority("PROFISSIONAL_SAUDE")
 
                 // atualizar próprio cadastro: só PROFISSIONAL_SAUDE — doc. profissional item 1
                 .requestMatchers(HttpMethod.PUT, "/api/profissionais/*/atualizar").hasAuthority("PROFISSIONAL_SAUDE")
