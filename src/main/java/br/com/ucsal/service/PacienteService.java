@@ -53,6 +53,12 @@ public class PacienteService {
         return pacienteRepository.save(paciente);
     }
 
+    public Paciente reativarPaciente(Long id) {
+        Paciente paciente = buscarPorId(id);
+        paciente.setAtivo(true);
+        return pacienteRepository.save(paciente);
+    }
+
     private void validarVinculoPaciente(Paciente paciente) {
         CategoriaPaciente categoria = paciente.getCategoria();
         if (categoria == null)

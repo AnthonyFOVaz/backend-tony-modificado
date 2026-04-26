@@ -1,5 +1,6 @@
 package br.com.ucsal.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -20,8 +21,10 @@ public class Instituicao {
     private String nome;
 
     @OneToMany(mappedBy = "instituicaoVinculada")
+    @JsonIgnore
     private List<Unidade> unidades;
 
     @OneToMany(mappedBy = "instituicaoVinculada")
+    @JsonIgnore
     private List<Escola> escolas;
 }

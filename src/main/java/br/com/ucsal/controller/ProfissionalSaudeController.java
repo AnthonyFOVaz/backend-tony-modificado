@@ -2,6 +2,7 @@ package br.com.ucsal.controller;
 
 import lombok.RequiredArgsConstructor;
 import br.com.ucsal.domain.ProfissionalSaude;
+import br.com.ucsal.dto.ProfissionalSaudeResponse;
 import br.com.ucsal.service.ProfissionalSaudeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,29 +18,35 @@ public class ProfissionalSaudeController {
     private final ProfissionalSaudeService profissionalSaudeService;
 
     @PostMapping
-    public ResponseEntity<ProfissionalSaude> cadastrar(@RequestBody ProfissionalSaude profissional) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(profissionalSaudeService.cadastrarProfissional(profissional));
+    public ResponseEntity<ProfissionalSaudeResponse> cadastrar(@RequestBody ProfissionalSaude profissional) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(ProfissionalSaudeResponse.from(profissionalSaudeService.cadastrarProfissional(profissional)));
     }
 
     @GetMapping
-    public ResponseEntity<List<ProfissionalSaude>> listar() {
-        return ResponseEntity.ok(profissionalSaudeService.buscarTodos());
+    public ResponseEntity<List<ProfissionalSaudeResponse>> listar() {
+        return ResponseEntity.ok(profissionalSaudeService.buscarTodos().stream()
+                .map(ProfissionalSaudeResponse::from).toList());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProfissionalSaude> buscarPorId(@PathVariable Long id) {
-        return ResponseEntity.ok(profissionalSaudeService.buscarPorId(id));
+    public ResponseEntity<ProfissionalSaudeResponse> buscarPorId(@PathVariable Long id) {
+        return ResponseEntity.ok(ProfissionalSaudeResponse.from(profissionalSaudeService.buscarPorId(id)));
     }
 
-
     @PutMapping("/{id}/inativar")
-    public ResponseEntity<ProfissionalSaude> inativar(@PathVariable Long id) {
-        return ResponseEntity.ok(profissionalSaudeService.inativarProfissional(id));
+    public ResponseEntity<ProfissionalSaudeResponse> inativar(@PathVariable Long id) {
+        return ResponseEntity.ok(ProfissionalSaudeResponse.from(profissionalSaudeService.inativarProfissional(id)));
+    }
+
+    @PutMapping("/{id}/reativar")
+    public ResponseEntity<ProfissionalSaudeResponse> reativar(@PathVariable Long id) {
+        return ResponseEntity.ok(ProfissionalSaudeResponse.from(profissionalSaudeService.reativarProfissional(id)));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProfissionalSaude> atualizar(@PathVariable Long id,
-                                                       @RequestBody ProfissionalSaude profissional) {
-        return ResponseEntity.ok(profissionalSaudeService.atualizarProfissional(id, profissional));
+    public ResponseEntity<ProfissionalSaudeResponse> atualizar(@PathVariable Long id,
+                                                               @RequestBody ProfissionalSaude profissional) {
+        return ResponseEntity.ok(ProfissionalSaudeResponse.from(profissionalSaudeService.atualizarProfissional(id, profissional)));
     }
 }

@@ -4,9 +4,11 @@ import br.com.ucsal.domain.Perfil;
 import br.com.ucsal.repository.PerfilRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @Component
+@Order(1)
 @RequiredArgsConstructor
 public class PerfilDataInitializer implements CommandLineRunner {
     private final PerfilRepository perfilRepository;

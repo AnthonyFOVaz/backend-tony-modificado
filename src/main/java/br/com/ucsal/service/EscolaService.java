@@ -52,4 +52,10 @@ public class EscolaService {
         escola.setStatus(false);
         return escolaRepository.save(escola);
     }
+
+    public Escola reativarEscola(Long id) {
+        Escola escola = buscarPorId(id);
+        escola.setStatus(true);
+        return escolaRepository.save(escola);
+    }
 }

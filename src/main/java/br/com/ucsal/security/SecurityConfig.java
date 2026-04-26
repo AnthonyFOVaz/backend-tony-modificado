@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.MediaType;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -43,22 +44,35 @@ public class SecurityConfig {
                 .requestMatchers("/api/usuarios/**").hasAuthority("ADMIN")
                 .requestMatchers("/api/perfis/**").hasAuthority("ADMIN")
 
-                // cadastrar/inativar medicamento e repor estoque: só ADMIN — doc. admin item 4
+                // cadastrar/inativar/reativar escola: só ADMIN
+                .requestMatchers(HttpMethod.POST, "/api/escolas").hasAuthority("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/api/escolas/*/inativar").hasAuthority("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/api/escolas/*/reativar").hasAuthority("ADMIN")
+
+                // cadastrar/inativar/reativar unidade: só ADMIN
+                .requestMatchers(HttpMethod.POST, "/api/unidades").hasAuthority("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/api/unidades/*/inativar").hasAuthority("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/api/unidades/*/reativar").hasAuthority("ADMIN")
+
+                // cadastrar/inativar/reativar medicamento e repor estoque: só ADMIN — doc. admin item 4
                 .requestMatchers(HttpMethod.POST, "/api/medicamentos").hasAuthority("ADMIN")
                 .requestMatchers(HttpMethod.PATCH, "/api/medicamentos/*/inativar").hasAuthority("ADMIN")
+                .requestMatchers(HttpMethod.PATCH, "/api/medicamentos/*/reativar").hasAuthority("ADMIN")
                 .requestMatchers(HttpMethod.PUT, "/api/medicamentos/*/estoque").hasAuthority("ADMIN")
 
-                // cadastrar/inativar profissional: só ADMIN — doc. admin item 3
+                // cadastrar/inativar/reativar profissional: só ADMIN — doc. admin item 3
                 .requestMatchers(HttpMethod.POST, "/api/profissionais").hasAuthority("ADMIN")
                 .requestMatchers(HttpMethod.PUT, "/api/profissionais/*/inativar").hasAuthority("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/api/profissionais/*/reativar").hasAuthority("ADMIN")
 
                 // baixar estoque e criar requisição: só PROFISSIONAL_SAUDE — doc. profissional item 3
-                .requestMatchers(HttpMethod.PATCH, "/api/medicamentos/*/baixar-estoque").hasAuthority("PROFISSIONAL_SAUDE") 
+                .requestMatchers(HttpMethod.PATCH, "/api/medicamentos/*/baixar-estoque").hasAuthority("PROFISSIONAL_SAUDE")
                 .requestMatchers(HttpMethod.POST, "/api/requisicoes").hasAuthority("PROFISSIONAL_SAUDE")
 
-                // cadastrar/inativar pacientes e registrar atendimentos: só PROFISSIONAL_SAUDE — doc. profissional item 2
+                // cadastrar/inativar/reativar pacientes e registrar atendimentos: só PROFISSIONAL_SAUDE — doc. profissional item 2
                 .requestMatchers(HttpMethod.POST, "/api/pacientes").hasAuthority("PROFISSIONAL_SAUDE")
                 .requestMatchers(HttpMethod.PUT, "/api/pacientes/*/inativar").hasAuthority("PROFISSIONAL_SAUDE")
+                .requestMatchers(HttpMethod.PUT, "/api/pacientes/*/reativar").hasAuthority("PROFISSIONAL_SAUDE")
                 .requestMatchers(HttpMethod.POST, "/api/atendimentos").hasAuthority("PROFISSIONAL_SAUDE")
                 .requestMatchers(HttpMethod.PUT, "/api/atendimentos/*/encerrar").hasAuthority("PROFISSIONAL_SAUDE")
 
@@ -70,8 +84,16 @@ public class SecurityConfig {
             )
             // sem token: 401 — sem permissão: 403
             .exceptionHandling(ex -> ex
-                .authenticationEntryPoint((req, res, e) -> res.sendError(401, "Não autenticado"))
-                .accessDeniedHandler((req, res, e) -> res.sendError(403, "Acesso negado"))
+                .authenticationEntryPoint((req, res, e) -> {
+                    res.setStatus(401);
+                    res.setContentType(MediaType.APPLICATION_JSON_VALUE);
+                    res.getWriter().write("{\"erro\":\"Não autenticado\"}");
+                })
+                .accessDeniedHandler((req, res, e) -> {
+                    res.setStatus(403);
+                    res.setContentType(MediaType.APPLICATION_JSON_VALUE);
+                    res.getWriter().write("{\"erro\":\"Acesso negado\"}");
+                })
             )
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 

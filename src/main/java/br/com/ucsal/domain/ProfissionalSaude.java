@@ -21,7 +21,7 @@ public class ProfissionalSaude {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @NotBlank
     @Column(nullable = false, unique = true, length = 30)

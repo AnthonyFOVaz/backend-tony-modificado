@@ -1,6 +1,7 @@
 package br.com.ucsal.controller;
 
 import br.com.ucsal.domain.Instituicao;
+import br.com.ucsal.dto.InstituicaoResponse;
 import br.com.ucsal.service.InstituicaoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,23 +17,25 @@ public class InstituicaoController {
     private final InstituicaoService instituicaoService;
 
     @PostMapping
-    public ResponseEntity<Instituicao> cadastrar(@RequestBody Instituicao instituicao) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(instituicaoService.cadastrarIes(instituicao));
+    public ResponseEntity<InstituicaoResponse> cadastrar(@RequestBody Instituicao instituicao) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(InstituicaoResponse.from(instituicaoService.cadastrarIes(instituicao)));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Instituicao> buscarPorID(@PathVariable Long id) {
-        return ResponseEntity.ok(instituicaoService.buscarPorId(id));
+    public ResponseEntity<InstituicaoResponse> buscarPorID(@PathVariable Long id) {
+        return ResponseEntity.ok(InstituicaoResponse.from(instituicaoService.buscarPorId(id)));
     }
 
     @GetMapping
-    public ResponseEntity<List<Instituicao>> listar() {
-        return ResponseEntity.ok(instituicaoService.buscarTodas());
+    public ResponseEntity<List<InstituicaoResponse>> listar() {
+        return ResponseEntity.ok(instituicaoService.buscarTodas().stream()
+                .map(InstituicaoResponse::from).toList());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Instituicao> atualizarInstituicao(@RequestBody Instituicao instituicao,
-                                                 @PathVariable Long id) {
-        return ResponseEntity.ok(instituicaoService.atualizarIes(id, instituicao));
+    public ResponseEntity<InstituicaoResponse> atualizarInstituicao(@RequestBody Instituicao instituicao,
+                                                                     @PathVariable Long id) {
+        return ResponseEntity.ok(InstituicaoResponse.from(instituicaoService.atualizarIes(id, instituicao)));
     }
 }

@@ -1,6 +1,7 @@
 package br.com.ucsal.controller;
 
 import br.com.ucsal.domain.Unidade;
+import br.com.ucsal.dto.UnidadeResponse;
 import br.com.ucsal.service.UnidadeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,27 +17,34 @@ public class UnidadeController {
     private final UnidadeService unidadeService;
 
     @PostMapping
-    public ResponseEntity<Unidade> cadastrarUnidade(@RequestBody Unidade unidade) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(unidadeService.cadastrarUnidade(unidade));
+    public ResponseEntity<UnidadeResponse> cadastrarUnidade(@RequestBody Unidade unidade) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(UnidadeResponse.from(unidadeService.cadastrarUnidade(unidade)));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Unidade> buscarUnidade(@PathVariable Long id) {
-        return ResponseEntity.ok(unidadeService.buscarPorId(id));
+    public ResponseEntity<UnidadeResponse> buscarUnidade(@PathVariable Long id) {
+        return ResponseEntity.ok(UnidadeResponse.from(unidadeService.buscarPorId(id)));
     }
 
     @GetMapping
-    public ResponseEntity<List<Unidade>> listarUnidades() {
-        return ResponseEntity.ok(unidadeService.buscarTodas());
+    public ResponseEntity<List<UnidadeResponse>> listarUnidades() {
+        return ResponseEntity.ok(unidadeService.buscarTodas().stream()
+                .map(UnidadeResponse::from).toList());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Unidade> atualizarUnidade(@PathVariable Long id, @RequestBody Unidade unidade) {
-        return ResponseEntity.ok(unidadeService.atualizarUnidade(id, unidade));
+    public ResponseEntity<UnidadeResponse> atualizarUnidade(@PathVariable Long id, @RequestBody Unidade unidade) {
+        return ResponseEntity.ok(UnidadeResponse.from(unidadeService.atualizarUnidade(id, unidade)));
     }
 
     @PutMapping("/{id}/inativar")
-    public ResponseEntity<Unidade> inativarUnidade(@PathVariable Long id) {
-        return ResponseEntity.ok(unidadeService.inativarUnidade(id));
+    public ResponseEntity<UnidadeResponse> inativarUnidade(@PathVariable Long id) {
+        return ResponseEntity.ok(UnidadeResponse.from(unidadeService.inativarUnidade(id)));
+    }
+
+    @PutMapping("/{id}/reativar")
+    public ResponseEntity<UnidadeResponse> reativarUnidade(@PathVariable Long id) {
+        return ResponseEntity.ok(UnidadeResponse.from(unidadeService.reativarUnidade(id)));
     }
 }

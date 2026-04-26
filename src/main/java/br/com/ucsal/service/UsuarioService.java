@@ -61,6 +61,12 @@ public class UsuarioService {
         return usuarioRepository.save(usuario);
     }
 
+    public Usuario reativarUsuario(Long id) {
+        Usuario usuario = buscarPorId(id);
+        usuario.setAtivo(true);
+        return usuarioRepository.save(usuario);
+    }
+
     public Usuario atualizarUsuario(Long id, List<Long> perfisIds) {
         Usuario usuario = buscarPorId(id);
         List<Perfil> perfis = perfilRepository.findAllById(perfisIds);

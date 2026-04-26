@@ -39,6 +39,12 @@ public class MedicamentoService {
         return medicamentoRepository.save(medicamento);
     }
 
+    public Medicamento reativarMedicamento(Long id) {
+        Medicamento medicamento = buscarPorId(id);
+        medicamento.setAtivo(true);
+        return medicamentoRepository.save(medicamento);
+    }
+
     public Medicamento atualizarEstoque(Long id, Integer novaQuantidade) {
         Medicamento medicamento = buscarPorId(id);
         if (novaQuantidade < 0)

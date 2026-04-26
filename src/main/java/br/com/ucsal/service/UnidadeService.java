@@ -54,4 +54,10 @@ public class UnidadeService {
         unidade.setAtivo(false);
         return unidadeRepository.save(unidade);
     }
+
+    public Unidade reativarUnidade(Long id) {
+        Unidade unidade = buscarPorId(id);
+        unidade.setAtivo(true);
+        return unidadeRepository.save(unidade);
+    }
 }

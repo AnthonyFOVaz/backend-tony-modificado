@@ -42,6 +42,12 @@ public class ProfissionalSaudeService {
         return profissionalSaudeRepository.save(profissional);
     }
 
+    public ProfissionalSaude reativarProfissional(Long id) {
+        ProfissionalSaude profissional = buscarPorId(id);
+        profissional.setAtivo(true);
+        return profissionalSaudeRepository.save(profissional);
+    }
+
     public ProfissionalSaude atualizarProfissional(Long id, ProfissionalSaude dados) {
         ProfissionalSaude profissional = buscarPorId(id);
         profissional.setNome(dados.getNome());

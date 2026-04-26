@@ -1,6 +1,6 @@
 package br.com.ucsal.controller;
 
-import br.com.ucsal.domain.Perfil;
+import br.com.ucsal.dto.PerfilResponse;
 import br.com.ucsal.repository.PerfilRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +17,8 @@ public class PerfilController {
     private final PerfilRepository perfilRepository;
 
     @GetMapping
-    public ResponseEntity<List<Perfil>> listar() {
-        return ResponseEntity.ok(perfilRepository.findAll());
+    public ResponseEntity<List<PerfilResponse>> listar() {
+        return ResponseEntity.ok(perfilRepository.findAll().stream()
+                .map(PerfilResponse::from).toList());
     }
 }

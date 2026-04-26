@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import br.com.ucsal.domain.Medicamento;
+import br.com.ucsal.dto.MedicamentoResponse;
 import br.com.ucsal.service.MedicamentoService;
 
 @RestController
@@ -27,34 +28,41 @@ public class MedicamentoController {
     private final MedicamentoService medicamentoService;
 
     @PostMapping
-    public ResponseEntity<Medicamento> cadastrar(@RequestBody @Valid Medicamento medicamento) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(medicamentoService.cadastrarMedicamento(medicamento));
+    public ResponseEntity<MedicamentoResponse> cadastrar(@RequestBody @Valid Medicamento medicamento) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(MedicamentoResponse.from(medicamentoService.cadastrarMedicamento(medicamento)));
     }
 
     @GetMapping
-    public ResponseEntity<List<Medicamento>> listar() {
-        return ResponseEntity.ok(medicamentoService.buscarTodos());
+    public ResponseEntity<List<MedicamentoResponse>> listar() {
+        return ResponseEntity.ok(medicamentoService.buscarTodos().stream()
+                .map(MedicamentoResponse::from).toList());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Medicamento> buscarPorId(@PathVariable Long id) {
-        return ResponseEntity.ok(medicamentoService.buscarPorId(id));
+    public ResponseEntity<MedicamentoResponse> buscarPorId(@PathVariable Long id) {
+        return ResponseEntity.ok(MedicamentoResponse.from(medicamentoService.buscarPorId(id)));
     }
 
     @PatchMapping("/{id}/inativar")
-    public ResponseEntity<Medicamento> inativar(@PathVariable Long id) {
-        return ResponseEntity.ok(medicamentoService.inativarMedicamento(id));
+    public ResponseEntity<MedicamentoResponse> inativar(@PathVariable Long id) {
+        return ResponseEntity.ok(MedicamentoResponse.from(medicamentoService.inativarMedicamento(id)));
+    }
+
+    @PatchMapping("/{id}/reativar")
+    public ResponseEntity<MedicamentoResponse> reativar(@PathVariable Long id) {
+        return ResponseEntity.ok(MedicamentoResponse.from(medicamentoService.reativarMedicamento(id)));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Medicamento> atualizarEstoque(@PathVariable Long id,
-                                                        @RequestParam Integer quantidade) {
-        return ResponseEntity.ok(medicamentoService.atualizarEstoque(id, quantidade));
+    public ResponseEntity<MedicamentoResponse> atualizarEstoque(@PathVariable Long id,
+                                                                 @RequestParam Integer quantidade) {
+        return ResponseEntity.ok(MedicamentoResponse.from(medicamentoService.atualizarEstoque(id, quantidade)));
     }
 
     @PatchMapping("/{id}/baixar-estoque")
-    public ResponseEntity<Medicamento> baixarEstoque(@PathVariable Long id,
-                                                     @RequestParam Integer quantidade) {
-        return ResponseEntity.ok(medicamentoService.baixarEstoque(id, quantidade));
+    public ResponseEntity<MedicamentoResponse> baixarEstoque(@PathVariable Long id,
+                                                              @RequestParam Integer quantidade) {
+        return ResponseEntity.ok(MedicamentoResponse.from(medicamentoService.baixarEstoque(id, quantidade)));
     }
 }
