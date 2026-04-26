@@ -29,6 +29,12 @@ public class AtendimentoController {
         return ResponseEntity.ok(AtendimentoResponse.from(atendimentoService.buscarPorId(id)));
     }
 
+    @GetMapping
+    public ResponseEntity<List<AtendimentoResponse>> listar() {
+        return ResponseEntity.ok(atendimentoService.buscarTodos().stream()
+                .map(AtendimentoResponse::from).toList());
+    }
+
     @PutMapping("/{id}/encerrar")
     public ResponseEntity<AtendimentoResponse> encerrar(@PathVariable Long id) {
         return ResponseEntity.ok(AtendimentoResponse.from(atendimentoService.encerrarAtendimento(id)));
