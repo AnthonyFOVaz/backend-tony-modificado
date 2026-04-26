@@ -10,7 +10,10 @@ public record RequisicaoResponse(
         MedicamentoResponse medicamento,
         ProfissionalSaudeResponse profissionalSaude,
         CaraterRequisicao caraterRequisicao,
-        LocalDate dataRequisicao) {
+        Integer quantidadeSolicitada,
+        Boolean atendida,
+        LocalDate dataRequisicao,
+        LocalDate dataAtendimento) {
 
     public static RequisicaoResponse from(Requisicao r) {
         return new RequisicaoResponse(
@@ -18,6 +21,9 @@ public record RequisicaoResponse(
                 r.getMedicamento() != null ? MedicamentoResponse.from(r.getMedicamento()) : null,
                 r.getProfissionalSaude() != null ? ProfissionalSaudeResponse.from(r.getProfissionalSaude()) : null,
                 r.getCaraterRequisicao(),
-                r.getDataRequisicao());
+                r.getQuantidadeSolicitada(),
+                r.getAtendida(),
+                r.getDataRequisicao(),
+                r.getDataAtendimento());
     }
 }

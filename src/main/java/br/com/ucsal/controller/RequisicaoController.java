@@ -7,6 +7,7 @@ import br.com.ucsal.dto.RequisicaoResponse;
 import br.com.ucsal.service.RequisicaoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,9 +21,18 @@ public class RequisicaoController {
     private final RequisicaoService requisicaoService;
 
     @PostMapping
-    public ResponseEntity<RequisicaoResponse> cadastrar(@RequestBody @Valid Requisicao requisicao) {
+    public ResponseEntity<RequisicaoResponse> cadastrar(@RequestBody Requisicao requisicao,
+                                                        Authentication authentication) {
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(RequisicaoResponse.from(requisicaoService.criarRequisicao(requisicao)));
+                .body(RequisicaoResponse.from(
+                        requisicaoService.criarRequisicao(requisicao, authentication.getName())));
+    }
+
+    @PutMapping("/{id}/atender")
+    public ResponseEntity<RequisicaoResponse> atender(@PathVariable Long id,
+                                                      @RequestParam(required = false) Integer quantidade) {
+        return ResponseEntity.ok(RequisicaoResponse.from(
+                requisicaoService.atenderRequisicao(id, quantidade)));
     }
 
     @GetMapping

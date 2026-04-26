@@ -29,7 +29,27 @@ public class Requisicao {
     @Column(name="carater_solicitacao", nullable = false)
     private CaraterRequisicao caraterRequisicao;
 
+    @Column(name = "quantidade_solicitada", nullable = false)
+    private Integer quantidadeSolicitada = 1;
+
+    @Column(nullable = false)
+    private Boolean atendida = false;
+
     @NotNull
     @Column(name="data_requisicao", nullable = false)
     private LocalDate dataRequisicao;
+
+    @Column(name = "data_atendimento")
+    private LocalDate dataAtendimento;
+
+    @PrePersist
+    public void prePersist() {
+        if (quantidadeSolicitada == null || quantidadeSolicitada < 1) {
+            quantidadeSolicitada = 1;
+        }
+
+        if (atendida == null) {
+            atendida = false;
+        }
+    }
 }
