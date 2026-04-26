@@ -22,6 +22,7 @@ public class ProfissionalSaudeService {
     private final UsuarioRepository usuarioRepository;
 
     public ProfissionalSaude cadastrarProfissional(ProfissionalSaude profissional) {
+        profissional.setId(null);
         Usuario usuario = usuarioRepository.findById(profissional.getUsuario().getId())
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado."));
         profissional.setUsuario(usuario);
