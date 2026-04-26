@@ -62,8 +62,11 @@ public class SecurityConfig {
 
                 // cadastrar/inativar/reativar profissional: só ADMIN — doc. admin item 3
                 .requestMatchers(HttpMethod.POST, "/api/profissionais").hasAuthority("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/api/profissionais/me").hasAuthority("PROFISSIONAL_SAUDE")
+                .requestMatchers(HttpMethod.PUT, "/api/profissionais/me").hasAuthority("PROFISSIONAL_SAUDE")
                 .requestMatchers(HttpMethod.PUT, "/api/profissionais/*/inativar").hasAuthority("ADMIN")
                 .requestMatchers(HttpMethod.PUT, "/api/profissionais/*/reativar").hasAuthority("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/api/profissionais/*").denyAll()
 
                 // baixar estoque e criar requisição: só PROFISSIONAL_SAUDE — doc. profissional item 3
                 .requestMatchers(HttpMethod.PATCH, "/api/medicamentos/*/baixar-estoque").hasAuthority("PROFISSIONAL_SAUDE")
@@ -76,9 +79,6 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/api/atendimentos").hasAuthority("PROFISSIONAL_SAUDE")
                 .requestMatchers(HttpMethod.PUT, "/api/atendimentos/*/encerrar").hasAuthority("PROFISSIONAL_SAUDE")
                 .requestMatchers(HttpMethod.PUT, "/api/atendimentos/*").hasAuthority("PROFISSIONAL_SAUDE")
-
-                // atualizar próprio cadastro: só PROFISSIONAL_SAUDE — doc. profissional item 1
-                .requestMatchers(HttpMethod.PUT, "/api/profissionais/*/atualizar").hasAuthority("PROFISSIONAL_SAUDE")
 
                 // GETs de consulta (relatórios, listagens): qualquer perfil autenticado — doc. admin item 5 e profissional item 4
                 .anyRequest().authenticated()

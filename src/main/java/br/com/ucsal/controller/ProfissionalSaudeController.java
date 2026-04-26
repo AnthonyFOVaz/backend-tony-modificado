@@ -6,6 +6,7 @@ import br.com.ucsal.dto.ProfissionalSaudeResponse;
 import br.com.ucsal.service.ProfissionalSaudeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,6 +28,23 @@ public class ProfissionalSaudeController {
     public ResponseEntity<List<ProfissionalSaudeResponse>> listar() {
         return ResponseEntity.ok(profissionalSaudeService.buscarTodos().stream()
                 .map(ProfissionalSaudeResponse::from).toList());
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<ProfissionalSaudeResponse> buscarMeuCadastro(Authentication authentication) {
+        return ResponseEntity.ok(ProfissionalSaudeResponse.from(
+                profissionalSaudeService.buscarPorEmailUsuario(authentication.getName())));
+    }
+
+    @PutMapping("/me")
+    public ResponseEntity<?> atualizarMeuCadastro(Authentication authentication,
+                                                  @RequestBody ProfissionalSaude profissional) {
+        try {
+            return ResponseEntity.ok(ProfissionalSaudeResponse.from(
+                    profissionalSaudeService.atualizarMeuCadastro(authentication.getName(), profissional)));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @GetMapping("/{id}")
